@@ -1,5 +1,5 @@
 import ISO_9899
-import String_Primitives
+import String
 import Testing
 
 @testable import Strings
@@ -40,14 +40,14 @@ extension `Swift.String ↔ Primitives.String round-trips`.Integration {
 
     @Test(arguments: Fixtures.fixtures)
     func `via init + Swift.String(_ owned:)`(fixture: Swift.String) {
-        let primitives = String_Primitives.String(fixture)
+        let primitives = String.String(fixture)
         let recovered = Swift.String(primitives)
         #expect(recovered == fixture)
     }
 
     @Test(arguments: Fixtures.fixtures)
     func `via init + Swift.String(_ view:)`(fixture: Swift.String) {
-        let primitives = String_Primitives.String(fixture)
+        let primitives = String.String(fixture)
         let recovered = Swift.String(primitives.view)
         #expect(recovered == fixture)
     }
@@ -126,9 +126,9 @@ extension `Swift.String ↔ ISO_9899.String round-trips`.Integration {
 
         @Test(arguments: Fixtures.fixtures)
         func `Primitives → ISO_9899 → Primitives`(fixture: Swift.String) {
-            let primitives = String_Primitives.String(fixture)
+            let primitives = String.String(fixture)
             let iso = ISO_9899.String(primitives.view)
-            let recovered = String_Primitives.String(iso.view)
+            let recovered = String.String(iso.view)
 
             let recoveredSwift = Swift.String(recovered)
             #expect(recoveredSwift == fixture)
@@ -137,7 +137,7 @@ extension `Swift.String ↔ ISO_9899.String round-trips`.Integration {
         @Test(arguments: Fixtures.fixtures)
         func `ISO_9899 → Primitives → ISO_9899`(fixture: Swift.String) {
             let iso = ISO_9899.String(fixture)
-            let primitives = String_Primitives.String(iso.view)
+            let primitives = String.String(iso.view)
             let recovered = ISO_9899.String(primitives.view)
             let recoveredSwift = Swift.String(recovered)
             #expect(recoveredSwift == fixture)

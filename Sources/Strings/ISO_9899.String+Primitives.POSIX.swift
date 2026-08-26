@@ -1,13 +1,13 @@
 #if !os(Windows)
 
     public import ISO_9899
-    public import String_Primitives
+    public import String
 
     extension ISO_9899.String {
 
         @inlinable
-        public init(_ view: borrowing String_Primitives.String.Borrowed) {
-            let length = unsafe String_Primitives.String.length(of: view.pointer)
+        public init(_ view: borrowing String.String.Borrowed) {
+            let length = unsafe String.String.length(of: view.pointer)
             let buffer = UnsafeMutablePointer<ISO_9899.String.Char>.allocate(capacity: length + 1)
 
             let src = unsafe view.pointer
@@ -17,12 +17,12 @@
         }
     }
 
-    extension String_Primitives.String {
+    extension String.String {
 
         @inlinable
         public init(_ view: borrowing ISO_9899.String.Borrowed) {
             let length = view.length
-            let buffer = UnsafeMutablePointer<String_Primitives.String.Char>.allocate(
+            let buffer = UnsafeMutablePointer<String.String.Char>.allocate(
                 capacity: length + 1
             )
 

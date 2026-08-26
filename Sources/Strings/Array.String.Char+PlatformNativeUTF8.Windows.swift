@@ -1,8 +1,8 @@
 #if os(Windows)
 
-    public import String_Primitives
+    public import String
 
-    extension Array where Element == String_Primitives.String.Char {
+    extension Array where Element == String.String.Char {
 
         @inlinable
         public var utf8Bytes: [UInt8] {

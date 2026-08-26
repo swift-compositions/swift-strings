@@ -1,19 +1,19 @@
 #if os(Windows)
 
-    public import String_Primitives
+    public import String
 
     extension Swift.String {
 
         @inlinable
         public static func strict(
-            platformNative codeUnits: [String_Primitives.String.Char]
+            platformNative codeUnits: [String.String.Char]
         ) -> Swift.String? {
             Self.strictUTF16(codeUnits)
         }
 
         @inlinable
         public static func lossy(
-            platformNative codeUnits: [String_Primitives.String.Char]
+            platformNative codeUnits: [String.String.Char]
         ) -> Swift.String {
             Swift.String(decoding: codeUnits, as: UTF16.self)
         }

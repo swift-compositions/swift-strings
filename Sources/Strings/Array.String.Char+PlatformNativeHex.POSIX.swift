@@ -1,9 +1,9 @@
 #if !os(Windows)
 
-    public import String_Primitives
-    public import ASCII_Hexadecimal_Serializer_Primitives
+    public import String
+    public import ASCII_Hexadecimal_Serializer
 
-    extension Array where Element == String_Primitives.String.Char {
+    extension Array where Element == String.String.Char {
 
         @inlinable
         public func platformNativeHex(uppercase: Bool = true) -> Swift.String {
@@ -22,7 +22,7 @@
                 return Swift.String(decoding: result, as: UTF8.self)
             }
 
-            let serializer = ASCII.Hexadecimal.Serializer<String_Primitives.String.Char>()
+            let serializer = ASCII.Hexadecimal.Serializer<String.String.Char>()
             var codes: [ASCII.Code] = []
             codes.reserveCapacity(count * 2)
             for byte in self {

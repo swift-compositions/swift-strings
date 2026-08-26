@@ -10,7 +10,7 @@ Bridges Swift's `String` to OS-native path strings, ISO C byte strings, and raw 
 
 - **Strict Unicode decoding** — `strictUTF8` and `strictUTF16` return `nil` on any invalid sequence instead of substituting the U+FFFD replacement character.
 - **Validated span construction** — build a `String` from a `Span<UInt8>` of UTF-8, throwing a typed `UTF8.ValidationError` on malformed input.
-- **OS-native path bridging** — convert between `String` and `String_Primitives.String` (UTF-8 on POSIX, UTF-16 on Windows) by borrow, by consuming, or through a scoped `withPrimitivesView` closure.
+- **OS-native path bridging** — convert between `String` and `String.String` (UTF-8 on POSIX, UTF-16 on Windows) by borrow, by consuming, or through a scoped `withPrimitivesView` closure.
 - **ISO C string bridging** — convert between `String` and null-terminated `ISO_9899.String` byte strings, with a scoped `withISO9899View` closure for borrowed access.
 - **Platform-native decode helpers** — `strict(platformNative:)` and `lossy(platformNative:)` collapse `#if os(Windows)` UTF-8/UTF-16 dispatch into a single call site.
 - **Platform-native hex** — `platformNativeHex(uppercase:)` renders path code units as hex for diagnostics, widening UTF-16 units to big-endian bytes on Windows.
@@ -40,7 +40,7 @@ Swift.String.strictUTF16([0xD800])            // nil
 Swift.String.strictUTF16([0x0048, 0x0069])    // "Hi"
 ```
 
-The module re-exports `String_Primitives` and `ISO_9899`, so `import Strings` brings the bridged types into scope; qualify `Swift.String` explicitly, since `String_Primitives` also vends a `String` type.
+The module re-exports `String` and `ISO_9899`, so `import Strings` brings the bridged types into scope; qualify `Swift.String` explicitly, since `String` also vends a `String` type.
 
 ---
 
@@ -48,7 +48,7 @@ The module re-exports `String_Primitives` and `ISO_9899`, so `import Strings` br
 
 ```swift
 dependencies: [
-    .package(url: "https://github.com/swift-foundations/swift-strings.git", branch: "main")
+    .package(url: "https://github.com/swift-compositions/swift-strings.git", branch: "main")
 ]
 ```
 
