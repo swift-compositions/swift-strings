@@ -1,7 +1,7 @@
 #if os(Windows)
 
     public import String
-    public import ASCII_Hexadecimal_Serializer
+    public import ASCII
 
     extension Array where Element == String.String.Char {
 

@@ -1,6 +1,6 @@
 #if !os(Windows)
 
-    public import String
+    import String
 
     extension Swift.String {
 
@@ -45,10 +45,10 @@
             )
             defer { unsafe buffer.deallocate() }
             for (i, byte) in utf8Array.enumerated() {
-                unsafe (buffer[i] = byte)
+                (buffer[i] = byte)
             }
-            unsafe (buffer[count] = 0)
-            let view = unsafe String.String.Borrowed(UnsafePointer(buffer), count: count)
+            (buffer[count] = 0)
+            let view = unsafe String.String.Borrowed(UnsafePointer<<#Pointee: ~Copyable#>>(buffer), count: count)
             return try body(view)
         }
     }

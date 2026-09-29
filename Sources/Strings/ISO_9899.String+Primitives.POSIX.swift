@@ -1,7 +1,7 @@
 #if !os(Windows)
 
     public import ISO_9899
-    public import String
+    import String
 
     extension ISO_9899.String {
 
@@ -10,7 +10,7 @@
             let length = unsafe String.String.length(of: view.pointer)
             let buffer = UnsafeMutablePointer<ISO_9899.String.Char>.allocate(capacity: length + 1)
 
-            let src = unsafe view.pointer
+            let src = view.pointer
             unsafe buffer.update(from: src, count: length + 1)
 
             unsafe self.init(adopting: buffer, count: length)

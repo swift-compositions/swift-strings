@@ -1,6 +1,6 @@
 #if !os(Windows)
 
-    public import String
+    import String
 
     extension Array where Element == String.String.Char {
 
