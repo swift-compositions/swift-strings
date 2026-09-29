@@ -2,7 +2,7 @@
 
     public import String
 
-    extension Array where Element == String.String.Char {
+    extension Array where Element == String::String.Char {
 
         @inlinable
         public var utf8Bytes: [UInt8] {

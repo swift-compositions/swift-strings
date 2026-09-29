@@ -3,7 +3,7 @@
     import String
     public import ASCII
 
-    extension Array where Element == String.String.Char {
+    extension Array where Element == String::String.Char {
 
         @inlinable
         public func platformNativeHex(uppercase: Bool = true) -> Swift.String {
@@ -22,7 +22,7 @@
                 return Swift.String(decoding: result, as: UTF8.self)
             }
 
-            let serializer = ASCII.Hexadecimal.Serializer<String.String.Char>()
+            let serializer = ASCII.Hexadecimal.Serializer<String::String.Char>()
             var codes: [ASCII.Code] = []
             codes.reserveCapacity(count * 2)
             for byte in self {
