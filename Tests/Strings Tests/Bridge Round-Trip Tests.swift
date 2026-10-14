@@ -11,18 +11,18 @@ struct `Swift.String ↔ Primitives.String round-trips` {
 
     @Suite struct Integration {}
 
-    static let fixtures: [Swift.String] = Self.curated + Self.multibyte + Self.randomized
+    static let fixtures: [Swift::String] = Self.curated + Self.multibyte + Self.randomized
 
-    static let curated: [Swift.String] = [
+    static let curated: [Swift::String] = [
         "",
         "a",
         "abc",
         "Hello, world!",
         "The quick brown fox jumps over the lazy dog.",
-        Swift.String(repeating: "x", count: 1024),
+        Swift::String(repeating: "x", count: 1024),
     ]
 
-    static let multibyte: [Swift.String] = [
+    static let multibyte: [Swift::String] = [
         "café",
         "naïve",
         "日本語",
@@ -32,30 +32,30 @@ struct `Swift.String ↔ Primitives.String round-trips` {
         "👨‍👩‍👧‍👦",
     ]
 
-    static let randomized: [Swift.String] = generateASCII(count: 64, seed: 0xC0DE_F00D_DEAD_BEEF)
+    static let randomized: [Swift::String] = generateASCII(count: 64, seed: 0xC0DE_F00D_DEAD_BEEF)
 }
 
 extension `Swift.String ↔ Primitives.String round-trips`.Integration {
     typealias Fixtures = `Swift.String ↔ Primitives.String round-trips`
 
     @Test(arguments: Fixtures.fixtures)
-    func `via init + Swift.String(_ owned:)`(fixture: Swift.String) {
+    func `via init + Swift.String(_ owned:)`(fixture: Swift::String) {
         let primitives = String::String(fixture)
-        let recovered = Swift.String(primitives)
+        let recovered = Swift::String(primitives)
         #expect(recovered == fixture)
     }
 
     @Test(arguments: Fixtures.fixtures)
-    func `via init + Swift.String(_ view:)`(fixture: Swift.String) {
+    func `via init + Swift.String(_ view:)`(fixture: Swift::String) {
         let primitives = String::String(fixture)
-        let recovered = Swift.String(primitives.view)
+        let recovered = Swift::String(primitives.view)
         #expect(recovered == fixture)
     }
 
     @Test(arguments: Fixtures.fixtures)
-    func `via withPrimitivesView`(fixture: Swift.String) {
+    func `via withPrimitivesView`(fixture: Swift::String) {
         let recovered = fixture.withPrimitivesView { view in
-            Swift.String(view)
+            Swift::String(view)
         }
         #expect(recovered == fixture)
     }
@@ -67,13 +67,13 @@ struct `Swift.String ↔ ISO_9899.String round-trips` {
     @Suite struct `Edge Case` {}
     @Suite struct Integration {}
 
-    static let fixtures: [Swift.String] = curated + multibyte + randomized
+    static let fixtures: [Swift::String] = curated + multibyte + randomized
 
-    static let curated: [Swift.String] = `Swift.String ↔ Primitives.String round-trips`.curated
+    static let curated: [Swift::String] = `Swift.String ↔ Primitives.String round-trips`.curated
 
-    static let multibyte: [Swift.String] = `Swift.String ↔ Primitives.String round-trips`.multibyte
+    static let multibyte: [Swift::String] = `Swift.String ↔ Primitives.String round-trips`.multibyte
 
-    static let randomized: [Swift.String] = `Swift.String ↔ Primitives.String round-trips`
+    static let randomized: [Swift::String] = `Swift.String ↔ Primitives.String round-trips`
         .randomized
 }
 
@@ -81,23 +81,23 @@ extension `Swift.String ↔ ISO_9899.String round-trips`.Integration {
     typealias Fixtures = `Swift.String ↔ ISO_9899.String round-trips`
 
     @Test(arguments: Fixtures.fixtures)
-    func `via init + Swift.String(_ owned:)`(fixture: Swift.String) {
+    func `via init + Swift.String(_ owned:)`(fixture: Swift::String) {
         let iso = ISO_9899.String(fixture)
-        let recovered = Swift.String(iso)
+        let recovered = Swift::String(iso)
         #expect(recovered == fixture)
     }
 
     @Test(arguments: Fixtures.fixtures)
-    func `via init + Swift.String(_ view:)`(fixture: Swift.String) {
+    func `via init + Swift.String(_ view:)`(fixture: Swift::String) {
         let iso = ISO_9899.String(fixture)
-        let recovered = Swift.String(iso.view)
+        let recovered = Swift::String(iso.view)
         #expect(recovered == fixture)
     }
 
     @Test(arguments: Fixtures.fixtures)
-    func `via withISO9899View`(fixture: Swift.String) {
+    func `via withISO9899View`(fixture: Swift::String) {
         let recovered = fixture.withISO9899View { view in
-            Swift.String(view)
+            Swift::String(view)
         }
         #expect(recovered == fixture)
     }
@@ -110,14 +110,14 @@ extension `Swift.String ↔ ISO_9899.String round-trips`.Integration {
         @Suite struct `Edge Case` {}
         @Suite struct Integration {}
 
-        static let fixtures: [Swift.String] = curated + multibyte + randomized
+        static let fixtures: [Swift::String] = curated + multibyte + randomized
 
-        static let curated: [Swift.String] = `Swift.String ↔ Primitives.String round-trips`.curated
+        static let curated: [Swift::String] = `Swift.String ↔ Primitives.String round-trips`.curated
 
-        static let multibyte: [Swift.String] = `Swift.String ↔ Primitives.String round-trips`
+        static let multibyte: [Swift::String] = `Swift.String ↔ Primitives.String round-trips`
             .multibyte
 
-        static let randomized: [Swift.String] = `Swift.String ↔ Primitives.String round-trips`
+        static let randomized: [Swift::String] = `Swift.String ↔ Primitives.String round-trips`
             .randomized
     }
 
@@ -125,21 +125,21 @@ extension `Swift.String ↔ ISO_9899.String round-trips`.Integration {
         typealias Fixtures = `Cross-L1 conversions (POSIX)`
 
         @Test(arguments: Fixtures.fixtures)
-        func `Primitives → ISO_9899 → Primitives`(fixture: Swift.String) {
+        func `Primitives → ISO_9899 → Primitives`(fixture: Swift::String) {
             let primitives = String::String(fixture)
             let iso = ISO_9899.String(primitives.view)
             let recovered = String::String(iso.view)
 
-            let recoveredSwift = Swift.String(recovered)
+            let recoveredSwift = Swift::String(recovered)
             #expect(recoveredSwift == fixture)
         }
 
         @Test(arguments: Fixtures.fixtures)
-        func `ISO_9899 → Primitives → ISO_9899`(fixture: Swift.String) {
+        func `ISO_9899 → Primitives → ISO_9899`(fixture: Swift::String) {
             let iso = ISO_9899.String(fixture)
             let primitives = String::String(iso.view)
             let recovered = ISO_9899.String(primitives.view)
-            let recoveredSwift = Swift.String(recovered)
+            let recoveredSwift = Swift::String(recovered)
             #expect(recoveredSwift == fixture)
         }
     }
@@ -163,9 +163,9 @@ extension SplitMix64 {
     }
 }
 
-private func generateASCII(count: Int, seed: UInt64) -> [Swift.String] {
+private func generateASCII(count: Int, seed: UInt64) -> [Swift::String] {
     var rng = SplitMix64(seed: seed)
-    var result: [Swift.String] = []
+    var result: [Swift::String] = []
     result.reserveCapacity(count)
     for _ in 0..<count {
         let length = Int(rng.next() % 64) + 1
@@ -175,7 +175,7 @@ private func generateASCII(count: Int, seed: UInt64) -> [Swift.String] {
 
             bytes.append(UInt8(rng.next() % 95) + 0x20)
         }
-        result.append(Swift.String(decoding: bytes, as: UTF8.self))
+        result.append(Swift::String(decoding: bytes, as: UTF8.self))
     }
     return result
 }

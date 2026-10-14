@@ -7,15 +7,15 @@
         @inlinable
         public static func strict(
             platformNative codeUnits: [String::String.Char]
-        ) -> Swift.String? {
+        ) -> Swift::String? {
             Self.strictUTF16(codeUnits)
         }
 
         @inlinable
         public static func lossy(
             platformNative codeUnits: [String::String.Char]
-        ) -> Swift.String {
-            Swift.String(decoding: codeUnits, as: UTF16.self)
+        ) -> Swift::String {
+            Swift::String(decoding: codeUnits, as: UTF16.self)
         }
     }
 

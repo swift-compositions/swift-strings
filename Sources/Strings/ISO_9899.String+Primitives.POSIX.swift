@@ -10,7 +10,7 @@
             let length = unsafe String::String.length(of: view.pointer)
             let buffer = UnsafeMutablePointer<ISO_9899.String.Char>.allocate(capacity: length + 1)
 
-            let src = view.pointer
+            let src = unsafe view.pointer
             unsafe buffer.update(from: src, count: length + 1)
 
             unsafe self.init(adopting: buffer, count: length)

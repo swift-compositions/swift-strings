@@ -6,19 +6,19 @@
 
         @inlinable
         public init(_ view: borrowing String::String.Borrowed) {
-            self = unsafe Swift.String(cString: view.pointer)
+            self = unsafe Swift::String(cString: view.pointer)
         }
 
         @inlinable
         public init(_ owned: consuming String::String) {
-            self = unsafe Swift.String(cString: owned.view.pointer)
+            self = unsafe Swift::String(cString: owned.view.pointer)
         }
     }
 
     extension String::String {
 
         @inlinable
-        public init(_ string: Swift.String) {
+        public init(_ string: Swift::String) {
             let contentLength = string.utf8.count
             let utf8 = Array(string.utf8) + [0]
             let buffer = UnsafeMutablePointer<String::String.Char>.allocate(
@@ -35,7 +35,7 @@
 
         @_optimize(none)
         @inlinable
-        public func withPrimitivesView<R: ~Copyable, E: Swift.Error>(
+        public func withPrimitivesView<R: ~Copyable, E: Swift::Error>(
             _ body: (borrowing String::String.Borrowed) throws(E) -> R
         ) throws(E) -> R {
             let utf8Array = Array(self.utf8)
@@ -45,9 +45,9 @@
             )
             defer { unsafe buffer.deallocate() }
             for (i, byte) in utf8Array.enumerated() {
-                (buffer[i] = byte)
+                (unsafe buffer[i] = byte)
             }
-            (buffer[count] = 0)
+            (unsafe buffer[count] = 0)
             let view = unsafe String::String.Borrowed(UnsafePointer(buffer), count: count)
             return try body(view)
         }

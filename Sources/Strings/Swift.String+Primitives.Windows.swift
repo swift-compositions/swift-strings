@@ -7,7 +7,7 @@
         @inlinable
         public init(_ view: borrowing String::String.Borrowed) {
             let units = unsafe Array(UnsafeBufferPointer(start: view.pointer, count: view.count))
-            self = Swift.String.lossyUTF16(units)
+            self = Swift::String.lossyUTF16(units)
         }
 
         @inlinable
@@ -15,14 +15,14 @@
             let units = unsafe Array(
                 UnsafeBufferPointer(start: owned.view.pointer, count: owned.view.count)
             )
-            self = Swift.String.lossyUTF16(units)
+            self = Swift::String.lossyUTF16(units)
         }
     }
 
     extension String::String {
 
         @inlinable
-        public init(_ string: Swift.String) {
+        public init(_ string: Swift::String) {
             let contentLength = string.utf16.count
             let utf16 = Array(string.utf16) + [0]
             let buffer = UnsafeMutablePointer<String::String.Char>.allocate(
@@ -39,7 +39,7 @@
 
         @_optimize(none)
         @inlinable
-        public func withPrimitivesView<R: ~Copyable, E: Swift.Error>(
+        public func withPrimitivesView<R: ~Copyable, E: Swift::Error>(
             _ body: (borrowing String::String.Borrowed) throws(E) -> R
         ) throws(E) -> R {
             let utf16Array = Array(self.utf16)

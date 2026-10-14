@@ -6,7 +6,7 @@
     extension Array where Element == String::String.Char {
 
         @inlinable
-        public func platformNativeHex(uppercase: Bool = true) -> Swift.String {
+        public func platformNativeHex(uppercase: Bool = true) -> Swift::String {
 
             if uppercase {
                 let digits: [UInt8] = [
@@ -19,7 +19,7 @@
                     result.append(digits[Int(byte >> 4)])
                     result.append(digits[Int(byte & 0xF)])
                 }
-                return Swift.String(decoding: result, as: UTF8.self)
+                return Swift::String(decoding: result, as: UTF8.self)
             }
 
             let serializer = ASCII.Hexadecimal.Serializer<String::String.Char>()
@@ -29,7 +29,7 @@
                 serializer.serialize(byte >> 4, into: &codes)
                 serializer.serialize(byte & 0xF, into: &codes)
             }
-            return Swift.String(decoding: codes.map(\.underlying), as: UTF8.self)
+            return Swift::String(decoding: codes.map(\.underlying), as: UTF8.self)
         }
     }
 
