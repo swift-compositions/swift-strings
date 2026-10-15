@@ -29,9 +29,9 @@
                 capacity: utf16.count
             )
             for (i, unit) in utf16.enumerated() {
-                buffer[i] = unit
+                unsafe buffer[i] = unit
             }
-            self.init(adopting: buffer, count: contentLength)
+            unsafe self.init(adopting: buffer, count: contentLength)
         }
     }
 
@@ -47,12 +47,12 @@
             let buffer = UnsafeMutablePointer<String::String.Char>.allocate(
                 capacity: count + 1
             )
-            defer { buffer.deallocate() }
+            defer { unsafe buffer.deallocate() }
             for (i, unit) in utf16Array.enumerated() {
-                buffer[i] = unit
+                unsafe buffer[i] = unit
             }
-            buffer[count] = 0
-            let view = String::String.Borrowed(UnsafePointer(buffer), count: count)
+            unsafe buffer[count] = 0
+            let view = unsafe String::String.Borrowed(UnsafePointer(buffer), count: count)
             return try body(view)
         }
     }
