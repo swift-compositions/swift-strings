@@ -25,7 +25,10 @@ extension ISO_9899.String {
         let utf8 = Array(string.utf8) + [0]
         let buffer = UnsafeMutablePointer<ISO_9899.String.Char>.allocate(capacity: utf8.count)
         utf8.withUnsafeBufferPointer { src in
-            unsafe buffer.update(from: src.baseAddress!, count: src.count)
+            guard let base = src.baseAddress else {
+                preconditionFailure("The UTF-8 array always contains the NUL terminator, so it is non-empty")
+            }
+            unsafe buffer.update(from: base, count: src.count)
         }
         unsafe self.init(adopting: buffer, count: contentLength)
     }
