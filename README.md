@@ -1,76 +1,14 @@
 # swift-strings
 
-![Development Status](https://img.shields.io/badge/status-active--development-blue.svg)
+Use this package when you move text between `Swift.String` and the null-terminated strings that system and C APIs use, or when you need to decode code units and reject invalid input instead of repairing it. It bridges `Swift.String` to the platform `String` from swift-string and to `ISO_9899.String` from swift-iso-9899, and adds `Swift.String.strictUTF8(_:)` and `Swift.String.strictUTF16(_:)`. If you only need to own or borrow a platform string, use swift-string.
 
-Bridges Swift's `String` to OS-native path strings, ISO C byte strings, and raw UTF-8/UTF-16 code units, with strict decoders that return `nil` on invalid input instead of substituting U+FFFD.
+## Laws
 
----
-
-## Key Features
-
-- **Strict Unicode decoding** — `strictUTF8` and `strictUTF16` return `nil` on any invalid sequence instead of substituting the U+FFFD replacement character.
-- **Validated span construction** — build a `String` from a `Span<UInt8>` of UTF-8, throwing a typed `UTF8.ValidationError` on malformed input.
-- **OS-native path bridging** — convert between `String` and `String.String` (UTF-8 on POSIX, UTF-16 on Windows) by borrow, by consuming, or through a scoped `withPrimitivesView` closure.
-- **ISO C string bridging** — convert between `String` and null-terminated `ISO_9899.String` byte strings, with a scoped `withISO9899View` closure for borrowed access.
-- **Platform-native decode helpers** — `strict(platformNative:)` and `lossy(platformNative:)` collapse `#if os(Windows)` UTF-8/UTF-16 dispatch into a single call site.
-- **Platform-native hex** — `platformNativeHex(uppercase:)` renders path code units as hex for diagnostics, widening UTF-16 units to big-endian bytes on Windows.
-
----
-
-## Quick Start
-
-`String(decoding:as:)` silently substitutes the U+FFFD replacement character for malformed bytes, corrupting data that should have been rejected. The strict decoders fail instead, so invalid input can be handled rather than mangled:
-
-```swift
-import Strings
-
-// "Hi" followed by an invalid UTF-8 byte.
-let utf8: [UInt8] = [0x48, 0x69, 0xFF]
-
-// The standard library silently substitutes U+FFFD for the invalid byte:
-Swift.String(decoding: utf8, as: UTF8.self)   // "Hi\u{FFFD}"
-
-// strictUTF8 rejects the input instead of corrupting it:
-Swift.String.strictUTF8(utf8)                 // nil
-Swift.String.strictUTF8([0x48, 0x69])         // "Hi"
-
-// strictUTF16 applies the same all-or-nothing rule — a lone surrogate
-// fails instead of decoding to U+FFFD:
-Swift.String.strictUTF16([0xD800])            // nil
-Swift.String.strictUTF16([0x0048, 0x0069])    // "Hi"
-```
-
-The module re-exports `String` and `ISO_9899`, so `import Strings` brings the bridged types into scope; qualify `Swift.String` explicitly, since `String` also vends a `String` type.
-
----
-
-## Installation
-
-```swift
-dependencies: [
-    .package(url: "https://github.com/swift-compositions/swift-strings.git", branch: "main")
-]
-```
-
-```swift
-.target(
-    name: "YourTarget",
-    dependencies: [
-        .product(name: "Strings", package: "swift-strings")
-    ]
-)
-```
-
-Requires Swift 6.3.1 and macOS 26 / iOS 26 / tvOS 26 / watchOS 26 / visionOS 26.
-
----
-
-## Community
-
-<!-- BEGIN: discussion -->
-*Discussion thread will be created at first public release.*
-<!-- END: discussion -->
-
-## License
-
-Apache 2.0. See [LICENSE](LICENSE.md).
+- `Swift.String.strictUTF8(_:)` and `Swift.String.strictUTF16(_:)` return nil if any part of the input is invalid: overlong forms, encoded surrogates, values above U+10FFFF, truncated sequences, stray continuation bytes, and lone or reversed surrogates. Empty input gives the empty string.
+- `Swift.String.lossyUTF16(_:)` replaces each lone surrogate with U+FFFD and keeps every code unit it is given, NULs included.
+- Building a `Swift.String` from a byte span throws on invalid UTF-8 instead of repairing it.
+- Going from `Swift.String` to the platform `String` or `ISO_9899.String` copies the UTF-8 (UTF-16 on Windows) and adds one terminating NUL that the count leaves out.
+- Going back to `Swift.String` from `ISO_9899.String`, or from the platform `String` on POSIX, reads up to the first NUL and repairs invalid UTF-8 with U+FFFD, so a string with an interior NUL comes back cut short. On Windows the platform string is read for its full count and lone surrogates become U+FFFD.
+- `Swift.String.withPrimitivesView(_:)` and `Swift.String.withISO9899View(_:)` hand the closure a NUL-terminated copy that is freed when the closure returns.
+- `Swift.String.strict(platformNative:)` and `Swift.String.lossy(platformNative:)` decode as UTF-8 on POSIX and as UTF-16 on Windows.
+- `Swift.Array.platformNativeHex(uppercase:)`, on an array of platform code units, writes two hex digits per byte on POSIX and four per UTF-16 code unit on Windows, most significant digit first. On Windows, `Swift.Array.utf8Bytes` transcodes the code units and repairs lone surrogates.
