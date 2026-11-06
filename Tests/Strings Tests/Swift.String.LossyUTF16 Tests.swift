@@ -2,7 +2,9 @@ import Testing
 
 @testable import Strings
 
-extension Swift.String {
+enum `Swift.String Tests` {}
+
+extension `Swift.String Tests` {
     @Suite
     struct Test {
         @Suite struct Unit {}
@@ -10,7 +12,7 @@ extension Swift.String {
     }
 }
 
-extension Swift.String.Test.Unit {
+extension `Swift.String Tests`.Test.Unit {
 
     @Test
     func `lossyUTF16 decodes basic multilingual plane text`() {
@@ -32,7 +34,7 @@ extension Swift.String.Test.Unit {
     }
 }
 
-extension Swift.String.Test.`Edge Case` {
+extension `Swift.String Tests`.Test.`Edge Case` {
 
     @Test
     func `lossyUTF16 replaces a lone high surrogate with U+FFFD instead of dropping it`() {
