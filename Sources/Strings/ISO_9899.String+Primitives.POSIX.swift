@@ -13,7 +13,7 @@
             let src = unsafe view.pointer
             unsafe buffer.update(from: src, count: length + 1)
 
-            unsafe self.init(adopting: buffer, count: length)
+            unsafe self.init(allocated: buffer, count: length)
         }
     }
 

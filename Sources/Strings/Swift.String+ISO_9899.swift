@@ -30,7 +30,7 @@ extension ISO_9899.String {
             }
             unsafe buffer.update(from: base, count: src.count)
         }
-        unsafe self.init(adopting: buffer, count: contentLength)
+        unsafe self.init(allocated: buffer, count: contentLength)
     }
 }
 
