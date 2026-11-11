@@ -29,7 +29,7 @@
                 serializer.serialize(byte >> 4, into: &codes)
                 serializer.serialize(byte & 0xF, into: &codes)
             }
-            return Swift::String(decoding: codes.map(\.underlying), as: UTF8.self)
+            return Swift::String(decoding: codes.map { $0.underlying }, as: UTF8.self)
         }
     }
 

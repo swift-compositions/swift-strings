@@ -33,7 +33,7 @@
                 serializer.serialize((codeUnit >> 4) & 0xF, into: &codes)
                 serializer.serialize(codeUnit & 0xF, into: &codes)
             }
-            return Swift::String(decoding: codes.map(\.underlying), as: UTF8.self)
+            return Swift::String(decoding: codes.map { $0.underlying }, as: UTF8.self)
         }
     }
 
